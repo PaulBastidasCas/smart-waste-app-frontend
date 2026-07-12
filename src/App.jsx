@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Landing from './javascript/Landing'; 
 import Login from './javascript/Login';
 import ResetPassword from './javascript/ResetPassword';
 
@@ -7,14 +8,12 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Redirige automáticamente la ruta raíz al componente de Login */}
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        {/* La ruta principal ahora carga la Landing Page */}
+        <Route path="/" element={<Landing />} />
         
-        {/* Rutas públicas de autenticación */}
+        {/* Rutas de autenticación */}
         <Route path="/login" element={<Login />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        
-        {/* Aquí irán tus futuras rutas privadas (ej. /dashboard) */}
       </Routes>
     </Router>
   );
