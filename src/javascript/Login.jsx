@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/Login.css';
 import { login, register, solicitarRecuperacion } from '../services/authService';
 
 const Login = () => {
+  const navigate = useNavigate();
+  
   const [view, setView] = useState('login');
   const [correo, setCorreo] = useState('');
   const [password, setPassword] = useState('');
@@ -14,16 +17,58 @@ const Login = () => {
   const [uiState, setUiState] = useState({ error: '', success: '', loading: false });
   const [showPassword, setShowPassword] = useState(false);
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const userRole = localStorage.getItem('rol');
+    
+    if (token && userRole) {
+      if (userRole === 'ENCARGADO') navigate('/encargado/mapa', { replace: true });
+      else if (userRole === 'ADMINISTRADOR') navigate('/admin', { replace: true });
+      else navigate('/estudiante', { replace: true });
+    }
+  }, [navigate]);
+
   const clearMessages = () => setUiState({ error: '', success: '', loading: false });
   const togglePassword = () => setShowPassword(!showPassword);
+
+  const parseJwt = (token) => {
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      return JSON.parse(jsonPayload);
+    } catch (e) {
+      return null;
+    }
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
     clearMessages();
     setUiState(prev => ({ ...prev, loading: true }));
+    
     try {
       const response = await login({ correo, password });
-      console.log('Login exitoso, token:', response.token);
+      const decodedToken = parseJwt(response.token);
+      
+      let userRole = decodedToken?.roles || decodedToken?.rol || 'ESTUDIANTE'; 
+      if (Array.isArray(userRole)) {
+        userRole = userRole[0].replace('ROLE_', ''); 
+      }
+
+      localStorage.setItem('token', response.token);
+      localStorage.setItem('rol', userRole);
+
+      if (userRole === 'ENCARGADO') {
+        navigate('/encargado/mapa', { replace: true });
+      } else if (userRole === 'ADMINISTRADOR') {
+        navigate('/admin', { replace: true });
+      } else {
+        navigate('/estudiante', { replace: true });
+      }
+
     } catch (err) {
       setUiState({ error: 'Credenciales incorrectas', success: '', loading: false });
     }
@@ -80,7 +125,6 @@ const Login = () => {
               </div>
               <div className="password-wrapper">
                 <input type={showPassword ? "text" : "password"} placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                {/* Botón corregido: Se eliminó la etiqueta <button> duplicada[cite: 4] */}
                 <button type="button" className="eye-btn" onClick={togglePassword}>
                   {showPassword ? (
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
