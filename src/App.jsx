@@ -5,6 +5,8 @@ import Login from './javascript/Login';
 import ResetPassword from './javascript/ResetPassword';
 import EncargadoLayout from './javascript/encargado/EncargadoLayout';
 import Recoleccion from './javascript/encargado/Recoleccion';
+// 1. Importa el componente del mapa
+import MapaCampus from './javascript/mapa/MapaCampus'; 
 
 const ProtectedRoute = ({ allowedRole }) => {
   const token = localStorage.getItem('token');
@@ -32,8 +34,9 @@ function App() {
         {/* Rutas Privadas del Encargado protegidas por ProtectedRoute */}
         <Route element={<ProtectedRoute allowedRole="ENCARGADO" />}>
           <Route path="/encargado" element={<EncargadoLayout />}>
-            <Route index element={<div>Vista Mapa en construcción</div>} />
-            <Route path="mapa" element={<div>Vista Mapa en construcción</div>} />
+            {/* 2. Reemplaza los <div> por el componente <MapaCampus /> */}
+            <Route index element={<MapaCampus />} />
+            <Route path="mapa" element={<MapaCampus />} />
             <Route path="recoleccion" element={<Recoleccion />} />
           </Route>
         </Route>

@@ -1,0 +1,177 @@
+/* Contenedor Principal */
+.mapa-container {
+  padding: 1.5rem;
+  background-color: var(--bg-color);
+  min-height: calc(100vh - 60px);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.mapa-header {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.mapa-header h2 {
+  color: var(--eco-primary);
+  margin-bottom: 0.5rem;
+}
+
+.mapa-header p {
+  color: var(--text-muted);
+}
+
+/* Leyenda del Mapa */
+.mapa-leyenda {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 15px;
+  background: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  display: inline-flex;
+}
+
+.leyenda-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-green { background-color: #28a745; }
+.dot-yellow { background-color: #ffc107; }
+.dot-red { background-color: #dc3545; }
+
+/* Contenedor del Mapa Leaflet */
+.mapa-wrapper {
+  flex-grow: 1;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  min-height: 600px; /* IMPORTANTE: Leaflet requiere un height definido */
+  position: relative;
+}
+
+.leaflet-map-container {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.loading-map {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  background-color: #f8f9fa;
+}
+
+/* Estilos de los Marcadores Dinámicos (HTML) */
+.custom-leaflet-icon {
+  background: transparent;
+  border: none;
+}
+
+.map-marker {
+  width: 40px;
+  height: 40px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+  position: relative;
+  border: 2px solid white;
+}
+
+.marker-percentage {
+  transform: rotate(45deg);
+  color: white;
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+.marker-green { background-color: #28a745; }
+.marker-yellow { background-color: #ffc107; color: #333 !important;}
+.marker-yellow .marker-percentage { color: #333; } /* Contraste para el amarillo */
+.marker-red { background-color: #dc3545; animation: pulseRed 1.5s infinite; }
+
+/* Animación para marcadores críticos */
+@keyframes pulseRed {
+  0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+}
+
+/* Estilos de la Ventana Emergente (Popup) */
+.custom-popup .leaflet-popup-content-wrapper {
+  border-radius: 8px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.custom-popup .leaflet-popup-content {
+  margin: 0;
+  width: 260px !important;
+}
+
+.popup-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.popup-header {
+  background-color: #f8f9fa;
+  padding: 12px 15px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popup-header strong {
+  font-size: 1.1rem;
+  color: var(--eco-primary);
+}
+
+.popup-body {
+  padding: 15px;
+  font-size: 0.9rem;
+}
+
+.popup-body p {
+  margin: 5px 0;
+  color: var(--text-main);
+}
+
+.popup-footer {
+  padding: 0 15px 15px 15px;
+}
+
+/* Reutilizando tu badge de residuo */
+.badge-residuo {
+  display: inline-block;
+  background-color: #e2e8f0;
+  color: #475569;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
