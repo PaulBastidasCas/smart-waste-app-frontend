@@ -5,7 +5,6 @@ import Login from './javascript/Login';
 import ResetPassword from './javascript/ResetPassword';
 import EncargadoLayout from './javascript/encargado/EncargadoLayout';
 import Recoleccion from './javascript/encargado/Recoleccion';
-// 1. Importa el componente del mapa
 import MapaCampus from './javascript/mapa/MapaCampus'; 
 
 const ProtectedRoute = ({ allowedRole }) => {
