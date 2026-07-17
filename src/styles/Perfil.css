@@ -1,0 +1,218 @@
+:root {
+  --eco-primary: #2b5c43;
+  --eco-dark: #1b4332;
+  --border-color: #e2e8f0;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --bg-input: #f8fafc;
+}
+
+.perfil-container {
+  display: flex;
+  gap: 1.2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 0.75rem;
+  align-items: flex-start;
+}
+
+.card-section {
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+/* ==========================================================
+   COLUMNA IZQUIERDA (SIDEBAR DE PERFIL)
+   ========================================================== */
+.perfil-sidebar {
+  flex: 0 0 220px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sidebar-title {
+  background-color: var(--bg-input);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 10px 15px;
+  border-bottom: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.photo-container {
+  padding: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.profile-avatar-placeholder {
+  width: 120px;
+  height: 120px;
+  border-radius: 8px;
+  background-color: #e0e7ff;
+  color: #3730a3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: 800;
+  border: 1px solid #c7d2fe;
+}
+
+.sidebar-info {
+  text-align: center;
+  padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+.profile-name {
+  margin: 0 0 8px 0;
+  color: var(--text-main);
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.profile-role-badge {
+  display: inline-block;
+  background-color: var(--eco-primary);
+  color: white;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================================
+   COLUMNA DERECHA (DATOS)
+   ========================================================== */
+.perfil-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-card {
+  padding: 0; /* Quitamos el padding global para manejarlo internamente */
+  overflow: hidden;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-input);
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.section-title {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+}
+
+.svg-icon-mr {
+  margin-right: 8px;
+  color: var(--eco-primary);
+}
+
+.btn-outline-small {
+  background: white;
+  border: 1px solid var(--border-color);
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.7rem;
+  color: var(--eco-primary);
+  transition: all 0.2s;
+}
+
+.btn-outline-small:hover {
+  background: #f1f5f9;
+}
+
+/* Grilla de Datos Tipo Ficha */
+.data-grid {
+  padding: 15px 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.data-row {
+  display: flex;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border-color);
+}
+
+.data-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.data-label {
+  flex: 0 0 160px; /* Ancho fijo para alinear perfectamente los datos */
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-align: right;
+  padding-right: 15px;
+}
+
+.data-value {
+  flex: 1;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.text-primary {
+  color: var(--eco-primary);
+}
+
+.text-muted {
+  color: #94a3b8;
+}
+
+.status-active {
+  color: #166534;
+  background: #dcfce7;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.65rem;
+  display: inline-block;
+  width: max-content;
+}
+
+.mt-3 {
+  margin-top: 1.2rem;
+}
+
+.perfil-loading {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.fade-in { animation: fadeIn 0.3s ease-in; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }

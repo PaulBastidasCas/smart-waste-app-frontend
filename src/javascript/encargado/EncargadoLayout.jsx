@@ -1,14 +1,40 @@
-import React from 'react';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { NavLink, Outlet, useNavigate, Link } from 'react-router-dom';
 import '../../styles/Encargado.css';
 
 const EncargadoLayout = () => {
   const navigate = useNavigate();
+  const [userName, setUserName] = useState('Usuario Encargado');
+  const [userRole, setUserRole] = useState('ENCARGADO');
+  const [initials, setInitials] = useState('US');
+
+  useEffect(() => {
+    let nombre = localStorage.getItem('nombreUsuario') ||
+      localStorage.getItem('nombre') ||
+      localStorage.getItem('usuario');
+
+    const rol = localStorage.getItem('rol') || 'ENCARGADO';
+
+    if (!nombre) {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const payload = JSON.parse(atob(token.split('.')[1]));
+          nombre = payload.nombre || payload.sub || 'Usuario Encargado';
+        } catch (e) {
+          console.error("No se pudo decodificar el token para extraer el nombre.");
+        }
+      }
+    }
+
+    const finalName = nombre || 'Usuario Encargado';
+    setUserName(finalName);
+    setUserRole(rol);
+    setInitials(finalName.substring(0, 2).toUpperCase());
+  }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('rol');
-    
+    localStorage.clear();
     navigate('/login', { replace: true });
   };
 
@@ -16,27 +42,64 @@ const EncargadoLayout = () => {
     <div className="encargado-layout">
       <aside className="sidebar">
         <div className="sidebar-header">
-          <svg className="logo-icon-small" viewBox="0 0 24 24">
-             <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1.177-15.06l-4.95 4.95a1.5 1.5 0 002.12 2.12l2.48-2.48v5.97a1.5 1.5 0 003 0v-5.97l2.48 2.48a1.5 1.5 0 102.12-2.12l-4.95-4.95a1.5 1.5 0 00-2.3 0z" />
-          </svg>
-          <h2>UTN SMART WASTE</h2>
-        </div>
-        
-        <div className="sidebar-user">
-          <p className="user-role">Panel de Encargado</p>
+          <div className="brand-container">
+            <svg className="brand-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+            <div className="brand-text">
+              <h2>Residuos inteligentes de UTN</h2>
+              <span className="brand-subtitle">CAMPUS EL OLIVO</span>
+            </div>
+          </div>
         </div>
 
         <nav className="sidebar-nav">
-          <NavLink to="/encargado/mapa" className={({isActive}) => isActive ? "nav-item active" : "nav-item"}>
-            <span className="icon">🗺️</span> Mapa
+          <NavLink to="/encargado/mapa" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
+            <svg className="nav-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            Mapa
           </NavLink>
-          <NavLink to="/encargado/recoleccion" className={({isActive}) => isActive ? "nav-item active" : "nav-item"}>
-            <span className="icon">🚚</span> Recolección
+          <NavLink to="/encargado/recoleccion" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
+            <svg className="nav-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="1" y="3" width="15" height="13"></rect>
+              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+              <circle cx="5.5" cy="18.5" r="2.5"></circle>
+              <circle cx="18.5" cy="18.5" r="2.5"></circle>
+            </svg>
+            Recolección
+          </NavLink>
+          <NavLink to="/encargado/llenado" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
+            <svg className="nav-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+              <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+              <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+              <line x1="12" y1="20" x2="12.01" y2="20"></line>
+            </svg>
+            Llenado
           </NavLink>
         </nav>
 
         <div className="sidebar-footer">
-          <button className="btn-logout" onClick={handleLogout}>
+          <Link to="/encargado/perfil" className="user-profile-link">
+            <div className="avatar-circle">
+              <span className="avatar-initials">{initials}</span>
+              <span className="online-dot"></span>
+            </div>
+            <div className="user-info">
+              <p className="user-name">{userName}</p>
+              <p className="user-role">{userRole}</p>
+            </div>
+          </Link>
+
+          <button className="btn-logout-full" onClick={handleLogout}>
+            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
             Cerrar Sesión
           </button>
         </div>

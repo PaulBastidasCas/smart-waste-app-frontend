@@ -5,7 +5,7 @@ import { login, register, solicitarRecuperacion } from '../services/authService'
 
 const Login = () => {
   const navigate = useNavigate();
-  
+
   const [view, setView] = useState('login');
   const [correo, setCorreo] = useState('');
   const [password, setPassword] = useState('');
@@ -20,7 +20,7 @@ const Login = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     const userRole = localStorage.getItem('rol');
-    
+
     if (token && userRole) {
       if (userRole === 'ENCARGADO') navigate('/encargado/mapa', { replace: true });
       else if (userRole === 'ADMINISTRADOR') navigate('/admin', { replace: true });
@@ -35,8 +35,8 @@ const Login = () => {
     try {
       const base64Url = token.split('.')[1];
       const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
       }).join(''));
       return JSON.parse(jsonPayload);
     } catch (e) {
@@ -48,14 +48,14 @@ const Login = () => {
     e.preventDefault();
     clearMessages();
     setUiState(prev => ({ ...prev, loading: true }));
-    
+
     try {
       const response = await login({ correo, password });
       const decodedToken = parseJwt(response.token);
-      
-      let userRole = decodedToken?.roles || decodedToken?.rol || 'ESTUDIANTE'; 
+
+      let userRole = decodedToken?.roles || decodedToken?.rol || 'ESTUDIANTE';
       if (Array.isArray(userRole)) {
-        userRole = userRole[0].replace('ROLE_', ''); 
+        userRole = userRole[0].replace('ROLE_', '');
       }
 
       localStorage.setItem('token', response.token);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import axios from 'axios';
+import api from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
@@ -13,20 +13,14 @@ const MapaCampus = () => {
   const [contenedores, setContenedores] = useState([]);
   const [loading, setLoading] = useState(true);
   const [facultadSeleccionada, setFacultadSeleccionada] = useState(null);
-  
+
   const [posicionUsuario, setPosicionUsuario] = useState(null);
 
   useEffect(() => {
     const fetchContenedores = async () => {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        navigate('/login');
-        return;
-      }
-
       try {
-        const config = { headers: { 'Authorization': `Bearer ${token}` } };
-        const response = await axios.get('http://localhost:8080/api/contenedores/activos', config);
+        setLoading(true);
+        const response = await api.get('contenedores/activos');
         setContenedores(response.data);
       } catch (error) {
         console.error("Error al cargar contenedores en el mapa:", error);
@@ -36,13 +30,13 @@ const MapaCampus = () => {
     };
 
     fetchContenedores();
-  }, [navigate]);
+  }, []);
 
   const facultadesAgrupadas = useMemo(() => {
     const agrupado = contenedores.reduce((acc, cont) => {
       const fac = cont.conFacultad;
       if (!fac || !cont.conLatitud || !cont.conLongitud) return acc;
-      
+
       const facId = fac.facId || fac.id;
       const nivel = cont.conNivelLlenadoPct || 0;
 
@@ -51,18 +45,18 @@ const MapaCampus = () => {
           id: facId,
           codigo: fac.facCodigo || fac.codigo,
           nombre: fac.facNombre || fac.nombre,
-          latitud: cont.conLatitud, 
+          latitud: cont.conLatitud,
           longitud: cont.conLongitud,
           contenedores: [],
-          nivelMaximo: 0 
+          sumaNiveles: 0,
+          nivelPromedio: 0
         };
       }
 
       acc[facId].contenedores.push(cont);
-      
-      if (nivel > acc[facId].nivelMaximo) {
-        acc[facId].nivelMaximo = nivel;
-      }
+      acc[facId].sumaNiveles += nivel;
+
+      acc[facId].nivelPromedio = Math.round(acc[facId].sumaNiveles / acc[facId].contenedores.length);
 
       return acc;
     }, {});
@@ -70,10 +64,10 @@ const MapaCampus = () => {
     return Object.values(agrupado);
   }, [contenedores]);
 
-  const crearIconoFacultad = (nivelMax, codigoFacultad) => {
+  const crearIconoFacultad = (nivelPromedio, codigoFacultad) => {
     let colorClass = 'marker-green';
-    if (nivelMax > 50 && nivelMax <= 80) colorClass = 'marker-yellow';
-    if (nivelMax > 80) colorClass = 'marker-red';
+    if (nivelPromedio > 50 && nivelPromedio <= 80) colorClass = 'marker-yellow';
+    if (nivelPromedio > 80) colorClass = 'marker-red';
 
     return L.divIcon({
       className: 'custom-leaflet-icon',
@@ -94,7 +88,7 @@ const MapaCampus = () => {
   });
 
   const calcularLlenadoActual = (capacidad, porcentaje) => {
-    if(!capacidad || !porcentaje) return 0;
+    if (!capacidad || !porcentaje) return 0;
     return ((capacidad * porcentaje) / 100).toFixed(1);
   };
 
@@ -117,7 +111,7 @@ const MapaCampus = () => {
     }, [map]);
 
     return (
-      <button 
+      <button
         className="btn-mi-ubicacion"
         onClick={(e) => {
           e.preventDefault();
@@ -126,20 +120,22 @@ const MapaCampus = () => {
         }}
         title="Centrar en mi ubicación"
       >
-        📍
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
+        </svg>
       </button>
     );
   };
 
   return (
     <div className="mapa-container fade-in">
-      
+
       <div className="mapa-header-card">
         <div className="header-titles">
-          <h2>🗺️ Mapa del Campus - UTN</h2>
-          <p>Selecciona una facultad para ver el detalle de sus contenedores en tiempo real.</p>
+          <h2>Mapa del Campus - UTN</h2>
+          <p>Selecciona una facultad para ver el detalle de sus contenedores.</p>
         </div>
-        
+
         <div className="mapa-leyenda-moderna">
           <div className="leyenda-pill verde">
             <span className="dot dot-green"></span>
@@ -161,10 +157,10 @@ const MapaCampus = () => {
           {loading ? (
             <div className="loading-map">Cargando datos del campus...</div>
           ) : (
-            <MapContainer 
-              center={UTN_CENTER} 
-              zoom={19} 
-              scrollWheelZoom={true} 
+            <MapContainer
+              center={UTN_CENTER}
+              zoom={19}
+              scrollWheelZoom={true}
               className="leaflet-map-container"
               style={{ height: '600px', width: '100%', borderRadius: '12px', position: 'relative' }}
             >
@@ -175,7 +171,6 @@ const MapaCampus = () => {
 
               <ControlUbicacion />
 
-              {/* Dibuja la ubicación del usuario si existe */}
               {posicionUsuario && (
                 <Marker position={posicionUsuario} icon={iconoUsuario}>
                   <Popup>Estás aquí</Popup>
@@ -183,10 +178,10 @@ const MapaCampus = () => {
               )}
 
               {facultadesAgrupadas.map(fac => (
-                <Marker 
-                  key={fac.id} 
-                  position={[fac.latitud, fac.longitud]} 
-                  icon={crearIconoFacultad(fac.nivelMaximo, fac.codigo)}
+                <Marker
+                  key={fac.id}
+                  position={[fac.latitud, fac.longitud]}
+                  icon={crearIconoFacultad(fac.nivelPromedio, fac.codigo)}
                   eventHandlers={{
                     click: () => {
                       setFacultadSeleccionada(fac);
@@ -194,10 +189,10 @@ const MapaCampus = () => {
                   }}
                 >
                   <Popup className="custom-popup">
-                    <div style={{textAlign: 'center', fontWeight: 'bold'}}>
+                    <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
                       {fac.nombre}
-                      <br/>
-                      <span style={{fontSize: '0.8rem', color: '#666'}}>{fac.contenedores.length} contenedores</span>
+                      <br />
+                      <span style={{ fontSize: '0.8rem', color: '#666' }}>{fac.contenedores.length} contenedores</span>
                     </div>
                   </Popup>
                 </Marker>
@@ -213,7 +208,9 @@ const MapaCampus = () => {
                 <h3>{facultadSeleccionada.codigo}</h3>
                 <p>{facultadSeleccionada.nombre}</p>
               </div>
-              <button className="btn-close-panel" onClick={() => setFacultadSeleccionada(null)}>✕</button>
+              <button className="btn-close-panel" onClick={() => setFacultadSeleccionada(null)}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
             </div>
 
             <div className="panel-estadisticas">
@@ -222,10 +219,10 @@ const MapaCampus = () => {
                 <span className="stat-label">Contenedores</span>
               </div>
               <div className="stat-box">
-                <span className={`stat-num ${facultadSeleccionada.nivelMaximo > 80 ? 'text-danger' : 'text-success'}`}>
-                  {facultadSeleccionada.nivelMaximo}%
+                <span className={`stat-num ${facultadSeleccionada.nivelPromedio > 80 ? 'text-danger' : 'text-success'}`}>
+                  {facultadSeleccionada.nivelPromedio}%
                 </span>
-                <span className="stat-label">Máx. Llenado</span>
+                <span className="stat-label">Promedio Llenado</span>
               </div>
             </div>
 
@@ -234,7 +231,7 @@ const MapaCampus = () => {
                 const nivel = cont.conNivelLlenadoPct || 0;
                 const capacidadL = cont.conCapacidadLitros || 0;
                 const factorKg = cont.conTipoResiduo?.treFactorKgUnidad || 1;
-                
+
                 const llenoL = calcularLlenadoActual(capacidadL, nivel);
                 const capacidadKg = calcularKg(capacidadL, factorKg);
                 const llenoKg = calcularKg(llenoL, factorKg);
@@ -248,20 +245,23 @@ const MapaCampus = () => {
                       </span>
                     </div>
                     <div className="mini-card-body">
-                      <p className="ubicacion-txt">📍 {cont.conDescripcionUbicacion}</p>
+                      <p className="ubicacion-txt">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '4px' }}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        {cont.conDescripcionUbicacion}
+                      </p>
                       <span className="badge-residuo-small">
-                        🗑️ {cont.conTipoResiduo?.treNombre || "Sin clasificar"}
+                        {cont.conTipoResiduo?.treNombre || "Sin clasificar"}
                       </span>
                     </div>
                     <div className="progress-bar mt-2" style={{ height: '6px' }}>
-                      <div 
-                        className={`progress-fill ${nivel > 80 ? 'danger' : 'success'}`} 
-                        style={{width: `${nivel}%`}}
+                      <div
+                        className={`progress-fill ${nivel > 80 ? 'danger' : 'success'}`}
+                        style={{ width: `${nivel}%` }}
                       ></div>
                     </div>
                     <div className="mini-card-footer">
                       <small>
-                        Lleno: {llenoL} L <span style={{fontWeight: '600', color: '#6c757d'}}>({llenoKg} kg)</span> / {capacidadL} L <span style={{color: '#6c757d'}}>({capacidadKg} kg)</span>
+                        Lleno: {llenoL} L <span style={{ fontWeight: '600', color: '#6c757d' }}>({llenoKg} kg)</span> / {capacidadL} L <span style={{ color: '#6c757d' }}>({capacidadKg} kg)</span>
                       </small>
                     </div>
                   </div>
