@@ -1,0 +1,310 @@
+:root {
+  --eco-primary: #2b5c43;
+  --eco-dark: #1b4332;
+  --border-color: #e2e8f0;
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --text-small: #64748b;
+  --bg-light: #f8fafc;
+}
+
+.mapa-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  font-size: 0.825rem; 
+}
+
+.mapa-header-card {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.header-titles h2 {
+  margin: 0 0 4px 0;
+  font-size: 1.2rem;
+  color: var(--text-main);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.header-titles p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.mapa-leyenda-moderna {
+  display: flex;
+  gap: 8px;
+}
+
+.leyenda-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 0.725rem;
+  font-weight: 600;
+}
+
+.leyenda-pill.verde { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+.leyenda-pill.amarillo { background: #fefce8; color: #854d0e; border: 1px solid #fef08a; }
+.leyenda-pill.rojo { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+.dot { width: 6px; height: 6px; border-radius: 50%; }
+
+.mapa-layout-split {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  align-items: stretch;
+}
+
+.mapa-seccion {
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: white;
+  padding: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  position: relative;
+  
+  min-width: 0; 
+  width: 100%;
+  
+  height: calc(100vh - 190px); 
+  min-height: 450px;
+}
+
+.mapa-completo {
+  flex: 1 1 100%;
+  width: 100%;
+}
+
+.mapa-reducido {
+  flex: 0 0 65%;
+  width: 65%;
+}
+
+.mapa-seccion .leaflet-map-container {
+  border-radius: 8px;
+  height: 100% !important;
+  width: 100% !important;
+  display: block;
+}
+
+.panel-detalle-facultad {
+  flex: 0 0 35%;
+  width: 35%;
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  height: calc(100vh - 190px);
+  min-height: 450px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  animation: slideLeft 0.25s ease-out forwards;
+}
+
+.panel-header {
+  background-color: var(--eco-primary);
+  color: white;
+  padding: 1rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.panel-header h3 {
+  margin: 0 0 4px 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.panel-header p {
+  margin: 0;
+  font-size: 0.75rem;
+  opacity: 0.9;
+}
+
+.btn-close-panel {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+}
+
+.btn-close-panel:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.panel-estadisticas {
+  display: flex;
+  padding: 8px 12px;
+  background: var(--bg-light);
+  border-bottom: 1px solid var(--border-color);
+  gap: 10px;
+}
+
+.stat-box {
+  flex: 1;
+  background: white;
+  padding: 6px;
+  border-radius: 6px;
+  text-align: center;
+  border: 1px solid var(--border-color);
+}
+
+.stat-num {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.stat-label {
+  font-size: 0.65rem;
+  color: var(--text-small);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.lista-contenedores-panel {
+  padding: 12px;
+  overflow-y: auto;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mini-contenedor-card {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px;
+  background: #ffffff;
+  transition: transform 0.2s;
+}
+
+.mini-contenedor-card:hover {
+  transform: translateX(2px);
+  border-color: var(--eco-primary);
+}
+
+.mini-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.mini-card-top strong {
+  color: var(--eco-dark);
+  font-size: 0.8rem;
+}
+
+.ubicacion-txt {
+  font-size: 0.75rem;
+  color: var(--text-main);
+  margin: 0 0 6px 0;
+}
+
+.badge-residuo-small {
+  display: inline-block;
+  background-color: #f1f5f9;
+  color: #475569;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 0.65rem;
+  font-weight: 600;
+}
+
+.mini-card-footer {
+  margin-top: 6px;
+  font-size: 0.7rem;
+  color: var(--text-small);
+  text-align: right;
+}
+
+.map-marker-facultad {
+  width: 44px;
+  height: 44px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  position: relative;
+  border: 2px solid white;
+}
+
+.marker-text {
+  transform: rotate(45deg);
+  color: white;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.marker-green { background-color: #2e7d32; }
+.marker-yellow { background-color: #eab308; }
+.marker-yellow .marker-text { color: #1e293b; }
+.marker-red { background-color: #dc2626; animation: pulseRed 1.5s infinite; }
+
+@keyframes pulseRed {
+  0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(220, 38, 38, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+}
+
+.btn-mi-ubicacion {
+  position: absolute;
+  top: 80px;        
+  left: 10px;
+  z-index: 1000;     
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.user-location-dot {
+  background-color: #2563eb;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 6px rgba(0,0,0,0.3);
+}
+
+@keyframes slideLeft {
+  from { opacity: 0; transform: translateX(15px); }
+  to { opacity: 1; transform: translateX(0); }
+}
