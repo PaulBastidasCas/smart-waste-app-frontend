@@ -42,7 +42,6 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-
         <Route element={<ProtectedRoute allowedRole="ENCARGADO" />}>
           <Route path="/encargado" element={<EncargadoLayout />}>
             <Route index element={<MapaCampus />} />
