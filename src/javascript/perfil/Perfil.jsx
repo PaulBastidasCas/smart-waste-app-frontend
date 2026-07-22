@@ -12,7 +12,7 @@ const Perfil = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await api.get(`/usuarios/me?correo=${correoUsuario}`);
+        const response = await api.get('/usuarios/me');
         setUserData(response.data);
       } catch (err) {
         console.error("Error cargando el perfil:", err);
@@ -36,7 +36,7 @@ const Perfil = () => {
       
       try {
         setLoading(true);
-        await api.patch(`api/usuarios/${userData.usuId}/foto-perfil`, 
+        await api.patch(`/usuarios/${userData.usuId}/foto-perfil`, 
           { fotoBase64: base64String },
           { headers: { 'Authorization': `Bearer ${token}` } }
         );
