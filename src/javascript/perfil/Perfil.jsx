@@ -9,10 +9,18 @@ const Perfil = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
+ useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await api.get('/usuarios/me');
+        const correoGuardado = localStorage.getItem('correo');
+        
+        if (!correoGuardado) {
+          setError("No se encontró el usuario en la sesión actual.");
+          setLoading(false);
+          return;
+        }
+
+        const response = await api.get(`/usuarios/me?correo=${correoGuardado}`);
         setUserData(response.data);
       } catch (err) {
         console.error("Error cargando el perfil:", err);
@@ -33,14 +41,14 @@ const Perfil = () => {
     reader.onloadend = async () => {
       const base64String = reader.result;
       const token = localStorage.getItem('token');
-      
+
       try {
         setLoading(true);
-        await api.patch(`/usuarios/${userData.usuId}/foto-perfil`, 
+        await api.patch(`/usuarios/${userData.usuId}/foto-perfil`,
           { fotoBase64: base64String },
           { headers: { 'Authorization': `Bearer ${token}` } }
         );
-        
+
         setUserData(prev => ({ ...prev, usuFotoPerfilBase64: base64String }));
       } catch (err) {
         console.error(err);
@@ -70,13 +78,13 @@ const Perfil = () => {
 
   return (
     <div className="perfil-container fade-in">
-      
+
       {/* Sidebar: Foto y Resumen */}
       <div className="perfil-sidebar card-section">
         <div className="sidebar-title">
           Información del {rolFormateado.charAt(0).toUpperCase() + rolFormateado.slice(1).toLowerCase()}
         </div>
-        
+
         <div className="photo-container">
           <label className="upload-label-profile">
             <input type="file" accept="image/*" onChange={handleImageUpload} hidden />
@@ -88,7 +96,7 @@ const Perfil = () => {
             <div className="edit-overlay">Cambiar Foto</div>
           </label>
         </div>
-        
+
         <div className="sidebar-info">
           <h3 className="profile-name">{userData.usuNombre} {userData.usuApellido}</h3>
           <span className="profile-role-badge">{rolFormateado}</span>
@@ -97,13 +105,13 @@ const Perfil = () => {
 
       {/* Contenido Principal */}
       <div className="perfil-content">
-        
+
         {/* Ficha del Usuario */}
         <div className="card-section content-card">
           <div className="section-header">
             <h3 className="section-title"><UserIcon /> Ficha del Usuario</h3>
           </div>
-          
+
           <div className="data-grid">
             <div className="data-row">
               <span className="data-label">APELLIDOS Y NOMBRES</span>
@@ -140,7 +148,7 @@ const Perfil = () => {
               Cambiar Contraseña
             </button>
           </div>
-          
+
           <div className="data-grid">
             <div className="data-row">
               <span className="data-label">CORREO INSTITUCIONAL</span>
