@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from "../../services/api"
 import { useNavigate } from 'react-router-dom';
 import '../../styles/Perfil.css';
 
@@ -11,26 +11,8 @@ const Perfil = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        navigate('/login');
-        return;
-      }
-
       try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        const correoUsuario = payload.sub; 
-
-        // Dejamos solo el token, quitamos la cabecera que daba error de CORS
-        const config = { 
-          headers: { 
-            'Authorization': `Bearer ${token}`
-          } 
-        };
-        
-        // Enviamos el correo como Query Parameter (?correo=...)
-        const response = await axios.get(`http://localhost:8080/api/usuarios/me?correo=${correoUsuario}`, config);
-        
+        const response = await api.get(`/usuarios/me?correo=${correoUsuario}`);
         setUserData(response.data);
       } catch (err) {
         console.error("Error cargando el perfil:", err);
@@ -54,13 +36,11 @@ const Perfil = () => {
       
       try {
         setLoading(true);
-        // Hacemos PATCH enviando el UUID real (usuId) y la foto en Base64
-        await axios.patch(`http://localhost:8080/api/usuarios/${userData.usuId}/foto-perfil`, 
+        await api.patch(`api/usuarios/${userData.usuId}/foto-perfil`, 
           { fotoBase64: base64String },
           { headers: { 'Authorization': `Bearer ${token}` } }
         );
         
-        // Actualiza el estado local para mostrar la imagen inmediatamente
         setUserData(prev => ({ ...prev, usuFotoPerfilBase64: base64String }));
       } catch (err) {
         console.error(err);
@@ -81,7 +61,6 @@ const Perfil = () => {
   const initials = obtenerIniciales(userData.usuNombre, userData.usuApellido);
   const rolFormateado = userData.usuRol?.rolNombre || 'USUARIO';
 
-  // Iconos SVG 
   const UserIcon = () => (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="svg-icon-mr"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
   );
