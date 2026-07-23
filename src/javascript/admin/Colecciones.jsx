@@ -171,6 +171,21 @@ const Colecciones = () => {
               <h4>OBSERVACIONES DEL OPERADOR</h4>
               <div className="observaciones-box">{rec.regObservaciones || "Sin observaciones adicionales."}</div>
             </div>
+
+            {/* SECCIÓN DE EVIDENCIA FOTOGRÁFICA (Solo se muestra si existe) */}
+            {rec.regFotoBase64 && (
+              <div className="evidencia-section" style={{ marginTop: '20px' }}>
+                <h4>EVIDENCIA FOTOGRÁFICA</h4>
+                <div style={{ textAlign: 'center', marginTop: '10px', background: '#f8fafc', padding: '15px', borderRadius: '8px', border: '1px dashed #cbd5e1' }}>
+                  <img 
+                    src={rec.regFotoBase64} 
+                    alt="Evidencia de recolección" 
+                    style={{ maxWidth: '100%', maxHeight: '400px', borderRadius: '4px', objectFit: 'contain' }} 
+                  />
+                </div>
+              </div>
+            )}
+            
           </div>
         </div>
 

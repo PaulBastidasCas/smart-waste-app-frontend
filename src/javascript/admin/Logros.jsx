@@ -28,7 +28,7 @@ const Logros = () => {
       const activas = response.data.filter(ins => ins.insActiva !== false);
       setLogros(activas);
     } catch (error) {
-      console.error("Error al cargar insignias:", error);
+      console.error("Error al cargar EcoTokens:", error);
     } finally {
       setLoading(false);
     }
@@ -45,10 +45,10 @@ const Logros = () => {
 
       if (isEditing) {
         await api.put(`/insignias/${editId}`, formData);
-        alert("Insignia actualizada exitosamente.");
+        alert("EcoToken actualizado exitosamente.");
       } else {
         await api.post('/insignias', formData);
-        alert("Nueva insignia creada y publicada.");
+        alert("Nuevo EcoToken creado y publicado.");
       }
       
       limpiarFormulario();
@@ -74,7 +74,7 @@ const Logros = () => {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm("¿Estás seguro de desactivar esta insignia?")) {
+    if (window.confirm("¿Estás seguro de desactivar este EcoToken?")) {
       try {
         await api.delete(`/insignias/${id}`);
         fetchInsignias(); 
@@ -97,19 +97,19 @@ const Logros = () => {
     setEditId(null);
   };
 
-  if (loading) return <div className="logros-container">Cargando insignias...</div>;
+  if (loading) return <div className="logros-container">Cargando EcoTokens...</div>;
 
   return (
     <div className="logros-container">
       <div className="logros-header">
-        <h2>Gestión de Insignias (Logros)</h2>
+        <h2>Gestión de EcoTokens UTN (Logros)</h2>
         <p>Crea misiones y retos para motivar a los estudiantes a reciclar en el campus.</p>
       </div>
 
       <div className="logros-content-split">
         <div className="creador-column">
           <div className="creador-card">
-            <h3>{isEditing ? "✏️ Editar Insignia" : "Crear Nueva Insignia"}</h3>
+            <h3>{isEditing ? "✏️ Editar EcoToken" : "Crear Nuevo EcoToken UTN"}</h3>
             
             <form onSubmit={handleSubmit}>
               <div style={{display: 'flex', gap: '1rem', marginBottom: '1.2rem'}}>
@@ -130,7 +130,7 @@ const Logros = () => {
               </div>
 
               <div className="form-group">
-                <label>Título de la Insignia</label>
+                <label>Título del EcoToken</label>
                 <input type="text" className="form-control" name="insNombre" placeholder="Ej: Reciclador Experto" value={formData.insNombre} onChange={handleChange} required />
               </div>
 
@@ -157,7 +157,7 @@ const Logros = () => {
               </div>
 
               <button type="submit" className="btn-submit">
-                {isEditing ? "💾 Guardar Cambios" : "Publicar Insignia"}
+                {isEditing ? "💾 Guardar Cambios" : "Publicar EcoToken"}
               </button>
               
               {isEditing && (
@@ -172,7 +172,7 @@ const Logros = () => {
         <div className="inventario-column">
           <div style={{ marginBottom: '1.5rem' }}>
             <h3 style={{ margin: '0 0 0.5rem 0', color: '#0f172a', fontSize: '1.3rem' }}>
-              📋 Insignias Publicadas
+              📋 EcoTokens Publicados
             </h3>
             <p style={{ margin: 0, color: '#64748b', fontSize: '0.95rem' }}>
               Retos activos guardados en la base de datos de la UTN.
@@ -181,7 +181,7 @@ const Logros = () => {
 
           <div className="inventario-grid">
             {logros.length === 0 ? (
-              <p style={{color: '#64748b'}}>No hay insignias activas. ¡Crea la primera!</p>
+              <p style={{color: '#64748b'}}>No hay ecoTokens activos. ¡Crea el primero!</p>
             ) : (
               logros.map(logro => (
                 <div className="logro-card" key={logro.insId} style={{ borderTop: `4px solid ${logro.insColorHex || '#2ECC71'}` }}>

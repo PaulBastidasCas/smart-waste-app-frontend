@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate, Link } from 'react-router-dom';
 import api from '../../services/api'; 
 import '../../styles/Encargado.css';
+import logoUtn from '../../assets/logo-utn.png'; // <-- Importación del logo
 
 const AdminLayout = () => {
   const navigate = useNavigate();
@@ -65,15 +66,18 @@ const AdminLayout = () => {
     <div className="encargado-layout">
       <aside className="sidebar">
         <div className="sidebar-header">
-          <div className="brand-container">
-            <svg className="brand-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-              <line x1="3" y1="9" x2="21" y2="9"></line>
-              <line x1="9" y1="21" x2="9" y2="9"></line>
-            </svg>
-            <div className="brand-text">
-              <h2>Panel de Control</h2>
-              <span className="brand-subtitle">SMART WASTE UTN</span>
+          {/* Contenedor centralizado para el logotipo */}
+          <div className="brand-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px', padding: '15px 0' }}>
+            <div style={{ background: 'white', padding: '10px 15px', borderRadius: '8px', width: '100%', display: 'flex', justifyContent: 'center', border: '1px solid #e2e8f0' }}>
+              <img 
+                src={logoUtn} 
+                alt="Logo UTN" 
+                style={{ maxWidth: '100%', maxHeight: '45px', objectFit: 'contain' }} 
+              />
+            </div>
+            <div className="brand-text" style={{ textAlign: 'center' }}>
+              <h2 style={{ fontSize: '1.05rem', margin: 0, color: '#0f172a' }}>Panel de Control</h2>
+              <span className="brand-subtitle" style={{ fontSize: '0.7rem', color: '#64748b', fontWeight: '600', letterSpacing: '0.5px' }}>SMART WASTE UTN</span>
             </div>
           </div>
         </div>

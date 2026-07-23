@@ -22,6 +22,16 @@ const Recoleccion = () => {
     descripcionError: ''
   });
 
+  const obtenerColorHex = (cont) => {
+    const hex = cont?.conTipoResiduo?.treColorHex;
+    if (hex) return hex;
+    const n = cont?.conTipoResiduo?.treNombre?.toLowerCase() || '';
+    if (n.includes('reciclable') && !n.includes('no')) return '#2563eb';
+    if (n.includes('orgánico') || n.includes('organico')) return '#16a34a';
+    if (n.includes('no reciclable')) return '#1f2937';
+    return '#64748b';
+  };
+
   useEffect(() => {
     const fetchFacultades = async () => {
       try {
@@ -41,7 +51,7 @@ const Recoleccion = () => {
     try {
       setLoading(true);
       const response = await api.get(`/contenedores/facultad/${facultadId}`);
-      setContenedores(response.data);
+      setContenedores(response.data.filter(c => c.conActivo === true));
     } catch (error) {
       setContenedores([]);
     } finally {
@@ -100,15 +110,56 @@ const Recoleccion = () => {
 
   const BuildingIcon = () => (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="svg-icon">
-      <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><path d="M9 22v-4h6v4"></path><path d="M8 6h.01"></path><path d="M16 6h.01"></path><path d="M12 6h.01"></path><path d="M12 10h.01"></path><path d="M12 14h.01"></path><path d="M16 10h.01"></path><path d="M16 14h.01"></path><path d="M8 10h.01"></path><path d="M8 14h.01"></path>
+      <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><path d="M9 22v-4h6v4"></path><path d="M8 6h.01"></path><path d="M16 6h.01"></path><path d="M12 6h.01"></path><path d="M12 10h.01"></path><path d="M14 10h.01"></path><path d="M16 10h.01"></path><path d="M16 14h.01"></path><path d="M8 10h.01"></path><path d="M8 14h.01"></path>
     </svg>
   );
 
   const TrashIcon = () => (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="svg-icon">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="svg-icon">
       <polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
     </svg>
   );
+
+  const ResiduoBadgeSVG = ({ nombre, colorHex }) => {
+    const n = nombre ? nombre.toLowerCase() : '';
+    const color = colorHex || '#64748b';
+
+    if (n.includes('reciclable') && !n.includes('no')) {
+      return (
+        <span style={{ backgroundColor: color, color: '#ffffff', padding: '3px 10px', borderRadius: '12px', fontSize: '0.65rem', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', gap: '5px', margin: '4px 0 8px 0' }}>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="7 19 3 15 7 11"></polyline>
+            <path d="M21 13a7 7 0 0 0-7-7H3"></path>
+            <polyline points="17 5 21 9 17 13"></polyline>
+            <path d="M3 11a7 7 0 0 0 7 7h11"></path>
+          </svg>
+          {nombre}
+        </span>
+      );
+    }
+
+    if (n.includes('orgánico') || n.includes('organico')) {
+      return (
+        <span style={{ backgroundColor: color, color: '#ffffff', padding: '3px 10px', borderRadius: '12px', fontSize: '0.65rem', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', gap: '5px', margin: '4px 0 8px 0' }}>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.4 19 2c1 2 2 4.1 2 7 0 6-5 11-10 11z"></path>
+            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+          </svg>
+          {nombre}
+        </span>
+      );
+    }
+
+    return (
+      <span style={{ backgroundColor: color, color: '#ffffff', padding: '3px 10px', borderRadius: '12px', fontSize: '0.65rem', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', gap: '5px', margin: '4px 0 8px 0' }}>
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+        </svg>
+        {nombre || "No Reciclable"}
+      </span>
+    );
+  };
 
   const CameraIcon = () => (
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px' }}>
@@ -225,6 +276,9 @@ const Recoleccion = () => {
                     const estadoLlenado = cont.conEstadoLlenado || cont.estadoLlenado || 'VACIO';
                     const isVacio = nivelPct === 0;
 
+                    const colorHex = obtenerColorHex(cont);
+                    const tipoResiduoNombre = cont.conTipoResiduo?.treNombre || cont.tipoResiduo?.nombre;
+
                     return (
                       <div
                         key={cont.conId || cont.id}
@@ -232,6 +286,7 @@ const Recoleccion = () => {
                         onClick={() => {
                           if (!isVacio) setFormData({ ...formData, contenedor: cont });
                         }}
+                        style={{ borderTop: `4px solid ${colorHex}` }}
                       >
                         <div className="card-top">
                           <div style={{ display: 'flex', gap: '6px' }}>
@@ -244,11 +299,11 @@ const Recoleccion = () => {
                           </div>
                         </div>
                         <div className="card-center">
-                          <div className="icon-wrapper"><TrashIcon /></div>
+                          <div className="icon-wrapper" style={{ color: colorHex }}>
+                            <TrashIcon />
+                          </div>
                           <h4>{cont.conCodigo || cont.codigo}</h4>
-                          <span className="badge-residuo">
-                            {cont.conTipoResiduo?.treNombre || cont.tipoResiduo?.nombre || "Sin clasificar"}
-                          </span>
+                          <ResiduoBadgeSVG nombre={tipoResiduoNombre} colorHex={colorHex} />
                           <p>{cont.conDescripcionUbicacion || cont.descripcionUbicacion}</p>
                         </div>
                         <div className="card-bottom">

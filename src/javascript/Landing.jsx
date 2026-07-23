@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Landing.css';
+import logoUtn from '../assets/logo-utn.png'; 
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -8,11 +9,15 @@ const Landing = () => {
   return (
     <div className="landing-container">
       <nav className="landing-nav fade-in-down">
-        <div className="nav-logo">
-          <svg className="logo-icon-small" viewBox="0 0 24 24">
-            <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1.177-15.06l-4.95 4.95a1.5 1.5 0 002.12 2.12l2.48-2.48v5.97a1.5 1.5 0 003 0v-5.97l2.48 2.48a1.5 1.5 0 102.12-2.12l-4.95-4.95a1.5 1.5 0 00-2.3 0z" />
-          </svg>
-          <span className="font-bold">UTN Smart Waste</span>
+        <div className="nav-logo" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <img 
+            src={logoUtn} 
+            alt="Logo UTN" 
+            style={{ height: '35px', width: 'auto', objectFit: 'contain' }} 
+          />
+          <span className="font-bold" style={{ borderLeft: '2px solid #e2e8f0', paddingLeft: '12px' }}>
+            Smart Waste
+          </span>
         </div>
       </nav>
 
@@ -35,16 +40,24 @@ const Landing = () => {
 
         <div className="hero-visual">
           <div className="composition-container">
-            <div className="eco-blob float-slow">
-              <svg viewBox="0 0 24 24" fill="currentColor" className="icon-gigant">
-                <path d="M19.41 7.41l-4.83-4.83c-.78-.78-2.05-.78-2.83 0l-4.83 4.83c-.78.78-.78 2.05 0 2.83l4.83 4.83c.78.78 2.05.78 2.83 0l4.83-4.83c.79-.78.79-2.05 0-2.83zm-6.24 3.41L10 7.64l3.17-3.17 3.17 3.17-3.17 3.18z" />
-              </svg>
-            </div>
-            <div className="floating-card card-1 float-fast">
-              <span className="emoji">♻️</span> FACAE: 85% Lleno
-            </div>
-            <div className="floating-card card-2 float-medium">
-              <span className="emoji">📊</span> Telemetría Activa
+            <div className="eco-blob float-slow" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ 
+                background: 'white', 
+                borderRadius: '50%', 
+                width: '140px', 
+                height: '140px', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                boxShadow: '0 10px 30px rgba(0,0,0,0.15)',
+                padding: '15px'
+              }}>
+                <img 
+                  src={logoUtn} 
+                  alt="Logo UTN" 
+                  style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} 
+                />
+              </div>
             </div>
           </div>
         </div>

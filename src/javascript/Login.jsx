@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Login.css';
 import { login, register, solicitarRecuperacion } from '../services/authService';
-import api from '../services/api'; 
+import api from '../services/api';
+import logoUtn from '../assets/logo-utn.png';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ const Login = () => {
   const [view, setView] = useState('login');
   const [correo, setCorreo] = useState('');
   const [password, setPassword] = useState('');
-  const [facultades, setFacultades] = useState([]); 
+  const [facultades, setFacultades] = useState([]);
 
   const [regData, setRegData] = useState({
     tipoIdentificacionId: '1', identificacion: '', nombre: '', apellido: '', correo: '', password: '', facultadId: ''
@@ -43,7 +44,7 @@ const Login = () => {
       }
     };
     fetchFacultades();
-  }, []); 
+  }, []);
 
   const clearMessages = () => setUiState({ error: '', success: '', loading: false });
   const togglePassword = () => setShowPassword(!showPassword);
@@ -286,12 +287,23 @@ const Login = () => {
     <div className="login-container">
       <div className="login-left">
         <div className="eco-blob-container">
-          <div className="eco-blob-login">
-            <svg className="logo-icon-login" viewBox="0 0 24 24">
-              <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1.177-15.06l-4.95 4.95a1.5 1.5 0 002.12 2.12l2.48-2.48v5.97a1.5 1.5 0 003 0v-5.97l2.48 2.48a1.5 1.5 0 102.12-2.12l-4.95-4.95a1.5 1.5 0 00-2.3 0z" />
-            </svg>
+          <div className="eco-blob-login" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{
+              background: '#ffffff',
+              borderRadius: '50%',
+              width: '240px',
+              height: '240px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+              padding: '30px'
+            }}>
+              <img src={logoUtn} alt="Logo UTN" style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
+            </div>
           </div>
         </div>
+
         <h1>UTN Smart Waste</h1>
         <p>Gestión Ecológica Inteligente del Campus El Olivo</p>
         <div className="tags">

@@ -100,6 +100,51 @@ const MapaCampusAdmin = () => {
     return (parseFloat(litros) * factorNum).toFixed(1);
   };
 
+  const obtenerColorHex = (cont) => {
+    const hex = cont?.conTipoResiduo?.treColorHex;
+    if (hex) return hex;
+    const n = cont?.conTipoResiduo?.treNombre?.toLowerCase() || '';
+    if (n.includes('reciclable') && !n.includes('no')) return '#2563eb';
+    if (n.includes('orgánico') || n.includes('organico')) return '#16a34a';
+    if (n.includes('no reciclable')) return '#1f2937';
+    return '#64748b';
+  };
+
+  const ResiduoBadgeSVG = ({ nombre, colorHex }) => {
+    const n = nombre ? nombre.toLowerCase() : '';
+    const color = colorHex || '#64748b';
+    const badgeStyle = { backgroundColor: color, color: '#ffffff', padding: '3px 8px', borderRadius: '12px', fontSize: '0.6rem', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', gap: '4px' };
+
+    if (n.includes('reciclable') && !n.includes('no')) {
+      return (
+        <span style={badgeStyle}>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="7 19 3 15 7 11"></polyline><path d="M21 13a7 7 0 0 0-7-7H3"></path><polyline points="17 5 21 9 17 13"></polyline><path d="M3 11a7 7 0 0 0 7 7h11"></path>
+          </svg>
+          {nombre}
+        </span>
+      );
+    }
+    if (n.includes('orgánico') || n.includes('organico')) {
+      return (
+        <span style={badgeStyle}>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.4 19 2c1 2 2 4.1 2 7 0 6-5 11-10 11z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+          </svg>
+          {nombre}
+        </span>
+      );
+    }
+    return (
+      <span style={badgeStyle}>
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+        </svg>
+        {nombre || "No Reciclable"}
+      </span>
+    );
+  };
+
   const ControlUbicacion = () => {
     const map = useMap();
     useEffect(() => {
@@ -118,7 +163,9 @@ const MapaCampusAdmin = () => {
         onClick={(e) => { e.preventDefault(); e.stopPropagation(); map.locate(); }}
         title="Centrar en mi ubicación"
       >
-        📍
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
+        </svg>
       </button>
     );
   };
@@ -182,7 +229,6 @@ const MapaCampusAdmin = () => {
                 <span className="stat-label">Contenedores</span>
               </div>
               <div className="stat-box">
-                {/* Ahora usamos nivelPromedio aquí también */}
                 <span className={`stat-num ${facultadSeleccionada.nivelPromedio > 80 ? 'text-danger' : 'text-success'}`}>
                   {facultadSeleccionada.nivelPromedio}%
                 </span>
@@ -200,17 +246,23 @@ const MapaCampusAdmin = () => {
                 const capacidadKg = calcularKg(capacidadL, factorKg);
                 const llenoKg = calcularKg(llenoL, factorKg);
 
+                const colorHex = obtenerColorHex(cont);
+                const tipoResiduoNombre = cont.conTipoResiduo?.treNombre || cont.tipoResiduo?.nombre;
+
                 return (
-                  <div key={cont.conId || cont.id} className="mini-contenedor-card">
+                  <div key={cont.conId || cont.id} className="mini-contenedor-card" style={{ borderLeft: `4px solid ${colorHex}` }}>
                     <div className="mini-card-top">
                       <strong>{cont.conCodigo || cont.codigo}</strong>
                       <span className={`status-badge ${nivel > 80 ? 'lleno' : 'operativo'}`}>{nivel}%</span>
                     </div>
                     <div className="mini-card-body">
-                      <p className="ubicacion-txt">📍 {cont.conDescripcionUbicacion}</p>
-                      <span className="badge-residuo-small">
-                        🗑️ {cont.conTipoResiduo?.treNombre || "Sin clasificar"}
-                      </span>
+                      <p className="ubicacion-txt">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '4px' }}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        {cont.conDescripcionUbicacion}
+                      </p>
+                      <div style={{ marginTop: '6px' }}>
+                        <ResiduoBadgeSVG nombre={tipoResiduoNombre} colorHex={colorHex} />
+                      </div>
                     </div>
                     <div className="progress-bar mt-2" style={{ height: '6px' }}>
                       <div className={`progress-fill ${nivel > 80 ? 'danger' : 'success'}`} style={{ width: `${nivel}%` }}></div>

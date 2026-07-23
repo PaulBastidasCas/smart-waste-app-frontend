@@ -35,8 +35,8 @@
 }
 
 .eco-blob-login {
-  width: 120px;
-  height: 120px;
+  width: 280px; 
+  height: 280px; 
   background: var(--eco-accent);
   border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
   display: flex;

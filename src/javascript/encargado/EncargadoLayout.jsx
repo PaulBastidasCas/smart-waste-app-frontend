@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate, Link } from 'react-router-dom';
-import api from '../../services/api'; 
+import api from '../../services/api';
 import '../../styles/Encargado.css';
+import logoUtn from '../../assets/logo-utn.png';
 
 const EncargadoLayout = () => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState('Usuario Encargado');
   const [userRole, setUserRole] = useState('ENCARGADO');
   const [initials, setInitials] = useState('EN');
-  const [avatar, setAvatar] = useState(null); 
+  const [avatar, setAvatar] = useState(null);
 
   useEffect(() => {
     const parseJwt = (token) => {
@@ -30,22 +31,22 @@ const EncargadoLayout = () => {
 
       const decoded = parseJwt(token);
       const email = localStorage.getItem('correo') || decoded?.sub || decoded?.username;
-      
+
       setUserRole(localStorage.getItem('rol') || 'ENCARGADO');
 
       if (email) {
         try {
           const response = await api.get(`/usuarios/correo/${email}`);
           const user = response.data;
-          
+
           const fullName = `${user.usuNombre || ''} ${user.usuApellido || ''}`.trim() || 'Usuario Encargado';
           setUserName(fullName);
-          
+
           const obtenerIniciales = (nombre, apellido) => {
             return `${nombre?.charAt(0) || ''}${apellido?.charAt(0) || ''}`.toUpperCase();
           };
           setInitials(obtenerIniciales(user.usuNombre, user.usuApellido) || 'EN');
-          
+
           setAvatar(user.usuFotoPerfilBase64 || null);
         } catch (err) {
           console.error("Error al cargar perfil:", err);
@@ -65,14 +66,17 @@ const EncargadoLayout = () => {
     <div className="encargado-layout">
       <aside className="sidebar">
         <div className="sidebar-header">
-          <div className="brand-container">
-            <svg className="brand-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="3 6 5 6 21 6"></polyline>
-              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-            </svg>
-            <div className="brand-text">
-              <h2>Residuos inteligentes de UTN</h2>
-              <span className="brand-subtitle">CAMPUS EL OLIVO</span>
+          <div className="brand-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px', padding: '15px 0' }}>
+            <div style={{ background: 'white', padding: '10px 15px', borderRadius: '8px', width: '100%', display: 'flex', justifyContent: 'center', border: '1px solid #e2e8f0' }}>
+              <img 
+                src={logoUtn} 
+                alt="Logo UTN" 
+                style={{ maxWidth: '100%', maxHeight: '45px', objectFit: 'contain' }} 
+              />
+            </div>
+            <div className="brand-text" style={{ textAlign: 'center' }}>
+              <h2 style={{ fontSize: '1.05rem', margin: 0, color: '#0f172a' }}>Residuos Inteligentes</h2>
+              <span className="brand-subtitle" style={{ fontSize: '0.7rem', color: '#64748b', fontWeight: '600', letterSpacing: '0.5px' }}>CAMPUS EL OLIVO</span>
             </div>
           </div>
         </div>
@@ -95,11 +99,12 @@ const EncargadoLayout = () => {
             Recolección
           </NavLink>
           <NavLink to="/encargado/llenado" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
-            <svg className="nav-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
-              <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
-              <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
-              <line x1="12" y1="20" x2="12.01" y2="20"></line>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="svg-icon">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              <line x1="12" y1="11" x2="12" y2="17"></line>
+              <line x1="9" y1="13" x2="9" y2="17"></line>
+              <line x1="15" y1="15" x2="15" y2="17"></line>
             </svg>
             Llenado
           </NavLink>

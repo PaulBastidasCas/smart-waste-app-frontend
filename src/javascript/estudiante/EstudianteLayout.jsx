@@ -3,6 +3,7 @@ import { NavLink, Outlet, useNavigate, Link } from 'react-router-dom';
 import api from '../../services/api';
 import '../../styles/Encargado.css';
 import '../../styles/Estudiante.css';
+import logoUtn from '../../assets/logo-utn.png';
 
 const EstudianteLayout = () => {
   const navigate = useNavigate();
@@ -62,14 +63,17 @@ const EstudianteLayout = () => {
     <div className="encargado-layout">
       <aside className="sidebar">
         <div className="sidebar-header">
-          <div className="brand-container">
-            <svg className="brand-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="3 6 5 6 21 6"></polyline>
-              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-            </svg>
-            <div className="brand-text">
-              <h2>Smart Waste UTN</h2>
-              <span className="brand-subtitle">PANEL ESTUDIANTIL</span>
+          <div className="brand-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px', padding: '15px 0' }}>
+            <div style={{ background: 'white', padding: '10px 15px', borderRadius: '8px', width: '100%', display: 'flex', justifyContent: 'center', border: '1px solid #e2e8f0' }}>
+              <img 
+                src={logoUtn} 
+                alt="Logo UTN" 
+                style={{ maxWidth: '100%', maxHeight: '45px', objectFit: 'contain' }} 
+              />
+            </div>
+            <div className="brand-text" style={{ textAlign: 'center' }}>
+              <h2 style={{ fontSize: '1.05rem', margin: 0, color: '#0f172a' }}>Smart Waste UTN</h2>
+              <span className="brand-subtitle" style={{ fontSize: '0.7rem', color: '#64748b', fontWeight: '600', letterSpacing: '0.5px' }}>PANEL ESTUDIANTIL</span>
             </div>
           </div>
         </div>
