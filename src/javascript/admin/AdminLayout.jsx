@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate, Link } from 'react-router-dom';
 import api from '../../services/api'; 
 import '../../styles/Encargado.css';
-import logoUtn from '../../assets/logo-utn.png'; // <-- Importación del logo
+import logoUtn from '../../assets/logo-utn.png'; 
 
 const AdminLayout = () => {
   const navigate = useNavigate();

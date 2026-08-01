@@ -13,15 +13,22 @@ const MapaCampus = () => {
   const [contenedores, setContenedores] = useState([]);
   const [loading, setLoading] = useState(true);
   const [facultadSeleccionada, setFacultadSeleccionada] = useState(null);
-
   const [posicionUsuario, setPosicionUsuario] = useState(null);
+  const userRole = localStorage.getItem('rol') || 'ESTUDIANTE';
+  const isAdmin = userRole === 'ADMINISTRADOR';
 
   useEffect(() => {
     const fetchContenedores = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+
       try {
         setLoading(true);
-        const response = await api.get('contenedores/activos');
-        setContenedores(response.data);
+        const response = await api.get('/contenedores/activos'); 
+        setContenedores(response.data); 
       } catch (error) {
         console.error("Error al cargar contenedores en el mapa:", error);
       } finally {
@@ -30,7 +37,7 @@ const MapaCampus = () => {
     };
 
     fetchContenedores();
-  }, []);
+  }, [navigate]);
 
   const facultadesAgrupadas = useMemo(() => {
     const agrupado = contenedores.reduce((acc, cont) => {
@@ -55,8 +62,7 @@ const MapaCampus = () => {
 
       acc[facId].contenedores.push(cont);
       acc[facId].sumaNiveles += nivel;
-
-      acc[facId].nivelPromedio = Math.round(acc[facId].sumaNiveles / acc[facId].contenedores.length);
+      acc[facId].nivelPromedio = Math.round(acc[facId].sumaNiveles / acc[facId].contenedores.length); //[cite: 18]
 
       return acc;
     }, {});
@@ -177,8 +183,13 @@ const MapaCampus = () => {
 
       <div className="mapa-header-card">
         <div className="header-titles">
-          <h2>Mapa del Campus - UTN</h2>
-          <p>Selecciona una facultad para ver el detalle de sus contenedores.</p>
+          {/* 2. Títulos Condicionales */}
+          <h2>Mapa del Campus - UTN {isAdmin && "(Admin)"}</h2>
+          <p>
+            {isAdmin 
+              ? "Supervisa el estado y accede al historial de recolecciones de cada contenedor." 
+              : "Selecciona una facultad para ver el detalle de sus contenedores."}
+          </p>
         </div>
 
         <div className="mapa-leyenda-moderna">
@@ -307,11 +318,33 @@ const MapaCampus = () => {
                         style={{ width: `${nivel}%` }}
                       ></div>
                     </div>
-                    <div className="mini-card-footer">
+
+                    {/* 3. Footer Condicional */}
+                    <div className="mini-card-footer" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
                       <small>
-                        Lleno: {llenoL} L <span style={{ fontWeight: '600', color: '#6c757d' }}>({llenoKg} kg)</span> / {capacidadL} L <span style={{ color: '#6c757d' }}>({capacidadKg} kg)</span>
+                        Lleno: {llenoL} L <span style={{ fontWeight: '600', color: '#6c757d' }}>({llenoKg} kg)</span>
+                        {!isAdmin && (
+                          <> / {capacidadL} L <span style={{ color: '#6c757d' }}>({capacidadKg} kg)</span></>
+                        )}
                       </small>
+                      
+                      {isAdmin && (
+                        <button
+                          onClick={() => {
+                            const id = cont.conId || cont.id;
+                            localStorage.setItem('ultimoContenedorId', id); //[cite: 17]
+                            navigate(`/admin/colecciones?contenedorId=${id}`); //[cite: 17]
+                          }}
+                          style={{
+                            backgroundColor: '#047857', color: 'white', border: 'none',
+                            padding: '4px 10px', borderRadius: '4px', fontSize: '0.75rem',
+                            cursor: 'pointer', fontWeight: 'bold'
+                          }}>
+                          Ver Historial
+                        </button>
+                      )}
                     </div>
+
                   </div>
                 );
               })}

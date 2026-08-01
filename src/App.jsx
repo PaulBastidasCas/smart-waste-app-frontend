@@ -15,7 +15,6 @@ import Metricas from './javascript/admin/Metricas';
 import Logros from './javascript/admin/Logros';
 import Contenedores from './javascript/admin/Contenedores';
 import ReportesIncidencias from './javascript/admin/ReportesIncidencias';
-import MapaCampusAdmin from './javascript/mapa/MapaCampusAdmin';
 
 import VistaEstudiante from './javascript/estudiante/VistaEstudiante';
 import EstudianteLayout from './javascript/estudiante/EstudianteLayout';
@@ -64,7 +63,7 @@ function App() {
         <Route element={<ProtectedRoute allowedRole="ADMINISTRADOR" />}>
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Navigate to="mapa" replace />} />
-            <Route path="mapa" element={<MapaCampusAdmin />} />
+            <Route path="mapa" element={<MapaCampus />} />
             <Route path="colecciones" element={<Colecciones />} />
             <Route path="metricas" element={<Metricas />} />
             <Route path="logros" element={<Logros />} />
