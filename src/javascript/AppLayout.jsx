@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate, Link } from 'react-router-dom';
-import api from '../../services/api'; 
-import '../../styles/Encargado.css';
-import logoUtn from '../../assets/logo-utn.png'; 
+import api from '../services/api'; 
+import '../styles/Encargado.css';
+import logoUtn from '../assets/logo-utn.png';
 
 const AppLayout = () => {
   const navigate = useNavigate();
