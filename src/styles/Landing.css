@@ -8,13 +8,14 @@
 }
 
 .landing-container {
-  height: 100vh;
+  height: 100dvh;
   overflow-y: auto;
   overflow-x: hidden;
   background-color: var(--bg-white);
   font-family: 'Segoe UI', system-ui, sans-serif;
   color: var(--eco-dark);
-  scroll-behavior: smooth; 
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 .landing-nav {
@@ -38,14 +39,17 @@
   color: var(--eco-primary);
 }
 
-.font-bold { font-weight: 800; letter-spacing: -0.5px; }
+.font-bold {
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
 
 .btn-eco {
   background: var(--eco-primary);
   color: white;
   border: none;
   padding: clamp(0.8rem, 2vw, 1.1rem) clamp(1.5rem, 3vw, 2.2rem);
-  border-radius: 50px; 
+  border-radius: 50px;
   font-size: clamp(0.95rem, 2vw, 1.1rem);
   font-weight: 600;
   cursor: pointer;
@@ -149,7 +153,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: inset 20px 20px 40px rgba(255,255,255,0.2), 0 20px 40px rgba(82, 183, 136, 0.4);
+  box-shadow: inset 20px 20px 40px rgba(255, 255, 255, 0.2), 0 20px 40px rgba(82, 183, 136, 0.4);
   animation: blobMorph 8s ease-in-out infinite alternate;
 }
 
@@ -210,7 +214,7 @@
   padding: 2.5rem 2rem;
   border-radius: 24px;
   border: 1px solid #f3f4f6;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
   transition: transform 0.3s;
 }
 
@@ -240,44 +244,98 @@
   font-weight: 500;
 }
 
-.fade-in-down { animation: fadeInDown 0.8s ease-out forwards; }
-.fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
-.fade-in { animation: fadeIn 1s ease-out forwards; }
-.float-fast { animation: float 3s ease-in-out infinite; }
-.float-medium { animation: float 4s ease-in-out infinite 1s; }
-.pulse-anim:hover { animation: pulseBtn 1.5s infinite; }
+.fade-in-down {
+  animation: fadeInDown 0.8s ease-out forwards;
+}
 
-.stagger-1 { animation: fadeInUp 0.8s 0.2s ease-out forwards; opacity: 0; }
-.stagger-2 { animation: fadeInUp 0.8s 0.4s ease-out forwards; opacity: 0; }
-.stagger-3 { animation: fadeInUp 0.8s 0.6s ease-out forwards; opacity: 0; }
+.fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.fade-in {
+  animation: fadeIn 1s ease-out forwards;
+}
+
+.float-fast {
+  animation: float 3s ease-in-out infinite;
+}
+
+.float-medium {
+  animation: float 4s ease-in-out infinite 1s;
+}
+
+.pulse-anim:hover {
+  animation: pulseBtn 1.5s infinite;
+}
+
+.stagger-1 {
+  animation: fadeInUp 0.8s 0.2s ease-out forwards;
+  opacity: 0;
+}
+
+.stagger-2 {
+  animation: fadeInUp 0.8s 0.4s ease-out forwards;
+  opacity: 0;
+}
+
+.stagger-3 {
+  animation: fadeInUp 0.8s 0.6s ease-out forwards;
+  opacity: 0;
+}
 
 @keyframes blobMorph {
-  0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
-  100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  0% {
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  }
+
+  100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
 }
 
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 900px) {
-  .hero-section { 
-    flex-direction: column; 
-    text-align: center; 
+  .hero-section {
+    flex-direction: column;
+    text-align: center;
     padding-top: 3rem;
   }
-  
+
   .eco-badge {
     margin-left: auto;
     margin-right: auto;
@@ -289,12 +347,16 @@
   }
 
   .composition-container {
-    max-width: 280px; 
+    max-width: 280px;
     margin-top: 1rem;
   }
-  
-  .eco-blob > div {
+
+  .eco-blob>div {
     width: 110px !important;
     height: 110px !important;
+  }
+
+  .eco-footer {
+    padding-bottom: 5rem;
   }
 }
