@@ -42,7 +42,7 @@ const ReportesIncidencias = () => {
         <h2>Reportes de Incidencias</h2>
       </div>
 
-      <div className="reportes-table-card">
+      <div className="table-responsive">
         <table className="reportes-table">
           <thead>
             <tr>
@@ -55,7 +55,6 @@ const ReportesIncidencias = () => {
           <tbody>
             {reportes.map(rep => (
               <tr key={rep.regId}>
-                {/* Usamos la estructura de tu modelo RegistroRecoleccion */}
                 <td><strong>{rep.regContenedor?.conFacultad?.facNombre || 'N/A'}</strong></td>
                 <td>{rep.regContenedor?.conCodigo || 'N/A'}</td>
                 <td>{rep.regDescripcionError || 'Sin descripción'}</td>

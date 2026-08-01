@@ -3,21 +3,18 @@ import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-
 import Landing from './javascript/Landing';
 import Login from './javascript/Login';
 import ResetPassword from './javascript/ResetPassword';
-import EncargadoLayout from './javascript/encargado/EncargadoLayout';
 import Recoleccion from './javascript/encargado/Recoleccion';
 import Llenado from './javascript/encargado/Llenado';
 import MapaCampus from './javascript/mapa/MapaCampus'; 
 import Perfil from './javascript/perfil/Perfil';
-import AdminLayout from './javascript/admin/AdminLayout';
 import Colecciones from './javascript/admin/Colecciones';
 import GestionUsuarios from './javascript/admin/GestionUsuarios';
 import Metricas from './javascript/admin/Metricas';
 import Logros from './javascript/admin/Logros';
 import Contenedores from './javascript/admin/Contenedores';
 import ReportesIncidencias from './javascript/admin/ReportesIncidencias';
-
 import VistaEstudiante from './javascript/estudiante/VistaEstudiante';
-import EstudianteLayout from './javascript/estudiante/EstudianteLayout';
+import AppLayout from './javascript/AppLayout';
 
 const ProtectedRoute = ({ allowedRole }) => {
   const token = localStorage.getItem('token');
@@ -41,8 +38,9 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+
         <Route element={<ProtectedRoute allowedRole="ENCARGADO" />}>
-          <Route path="/encargado" element={<EncargadoLayout />}>
+          <Route path="/encargado" element={<AppLayout />}>
             <Route index element={<MapaCampus />} />
             <Route path="mapa" element={<MapaCampus />} />
             <Route path="recoleccion" element={<Recoleccion />} />
@@ -52,7 +50,7 @@ function App() {
         </Route>
 
         <Route element={<ProtectedRoute allowedRole="ESTUDIANTE" />}>
-          <Route path="/estudiante" element={<EstudianteLayout />}>
+          <Route path="/estudiante" element={<AppLayout />}>
             <Route index element={<VistaEstudiante />} />
             <Route path="challenges" element={<VistaEstudiante />} />
             <Route path="perfil" element={<Perfil />} />
@@ -61,7 +59,7 @@ function App() {
         </Route>
 
         <Route element={<ProtectedRoute allowedRole="ADMINISTRADOR" />}>
-          <Route path="/admin" element={<AdminLayout />}>
+          <Route path="/admin" element={<AppLayout />}>
             <Route index element={<Navigate to="mapa" replace />} />
             <Route path="mapa" element={<MapaCampus />} />
             <Route path="colecciones" element={<Colecciones />} />

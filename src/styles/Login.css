@@ -9,7 +9,7 @@
 
 .login-container {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
   font-family: 'Segoe UI', system-ui, sans-serif;
   background-color: var(--bg-white);
 }
@@ -46,15 +46,8 @@
   animation: blobMorph 8s ease-in-out infinite alternate;
 }
 
-.logo-icon-login {
-  width: 60px;
-  height: 60px;
-  fill: white;
-  filter: drop-shadow(0 5px 5px rgba(0,0,0,0.2));
-}
-
 .login-left h1 {
-  font-size: 2.5rem;
+  font-size: clamp(2rem, 4vw, 2.8rem);
   font-weight: 800;
   margin: 0 0 0.5rem 0;
   letter-spacing: -0.5px;
@@ -62,15 +55,18 @@
 }
 
 .login-left p {
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 1.5vw, 1.1rem);
   margin-bottom: 2.5rem;
   opacity: 0.9;
   z-index: 2;
+  max-width: 80%;
 }
 
 .tags { 
   display: flex; 
-  gap: 1rem; 
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem; 
   z-index: 2;
 }
 
@@ -78,10 +74,11 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 30px;
   padding: 0.5rem 1.2rem;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   background-color: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(4px);
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .login-right {
@@ -90,7 +87,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 10%;
+  padding: 2rem 10%;
   position: relative;
   overflow-y: auto;
 }
@@ -103,7 +100,7 @@
 
 .login-header h2 {
   color: var(--eco-dark);
-  font-size: 2rem;
+  font-size: clamp(1.8rem, 3vw, 2.2rem);
   margin: 0 0 0.5rem 0;
   font-weight: 800;
 }
@@ -126,11 +123,13 @@
   margin-bottom: 1.2rem;
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .form-row {
   display: flex;
   gap: 1rem;
+  width: 100%;
 }
 
 .form-group.half {
@@ -142,6 +141,8 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+  gap: 5px;
 }
 
 .form-group label {
@@ -163,6 +164,8 @@
   background-color: #f9fafb;
   transition: all 0.3s ease;
   color: var(--eco-dark);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .form-group select {
@@ -178,7 +181,7 @@
 .form-group select:focus {
   border-color: var(--eco-accent);
   background-color: var(--bg-white);
-  box-shadow: 0 0 0 4px var(--eco-light);
+  box-shadow: 0 0 0 4px rgba(82, 183, 136, 0.2);
 }
 
 .password-wrapper {
@@ -189,7 +192,6 @@
 }
 
 .password-wrapper input {
-  width: 100%;
   padding-right: 3rem; 
 }
 
@@ -335,9 +337,44 @@
 }
 
 @media (max-width: 900px) {
-  .login-container { flex-direction: column; }
-  .login-left { flex: 0.4; padding: 3rem 1rem; }
-  .login-right { flex: 0.6; padding: 2rem 5%; }
-  .login-left h1 { font-size: 2rem; }
-  .eco-blob-container { display: none; } 
+  .login-container { 
+    flex-direction: column; 
+    height: auto;
+  }
+  
+  .login-left { 
+    flex: none; 
+    padding: 3rem 1.5rem 5rem 1.5rem; 
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+  }
+  
+  .login-right { 
+    flex: 1; 
+    padding: 2.5rem 1.5rem; 
+    margin-top: -40px; 
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    box-shadow: 0 -10px 20px rgba(0,0,0,0.05);
+  }
+  
+  .eco-blob-container { 
+    margin-bottom: 1.5rem; 
+  }
+  
+  .eco-blob-login {
+    width: 140px;
+    height: 140px;
+  }
+  
+  .eco-blob-login > div {
+    width: 110px !important;
+    height: 110px !important;
+    padding: 15px !important;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
 }

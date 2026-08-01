@@ -1,5 +1,5 @@
 .reportes-container {
-    padding: 2rem;
+    padding: clamp(1rem, 3vw, 2rem);
     background: #f8fafc;
     min-height: 100vh;
 }
@@ -10,14 +10,21 @@
 
 .reportes-table-card {
     background: white;
-    padding: 1.5rem;
+    padding: clamp(1rem, 2vw, 1.5rem);
     border-radius: 12px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .reportes-table {
     width: 100%;
     border-collapse: collapse;
+    min-width: 650px;
     margin-top: 1rem;
 }
 
@@ -42,17 +49,9 @@
     cursor: pointer;
     font-weight: 600;
     transition: background 0.2s;
+    white-space: nowrap;
 }
 
 .btn-generar:hover {
     background: #047857;
-}
-
-.badge-pendiente {
-    background: #fef3c7;
-    color: #92400e;
-    padding: 0.25rem 0.75rem;
-    border-radius: 999px;
-    font-size: 0.8rem;
-    font-weight: bold;
 }

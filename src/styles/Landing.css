@@ -34,14 +34,8 @@
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  font-size: 1.25rem;
+  font-size: clamp(1rem, 2vw, 1.25rem);
   color: var(--eco-primary);
-}
-
-.logo-icon-small {
-  width: 28px;
-  height: 28px;
-  fill: var(--eco-primary);
 }
 
 .font-bold { font-weight: 800; letter-spacing: -0.5px; }
@@ -50,13 +44,14 @@
   background: var(--eco-primary);
   color: white;
   border: none;
-  padding: 1.1rem 2.2rem;
+  padding: clamp(0.8rem, 2vw, 1.1rem) clamp(1.5rem, 3vw, 2.2rem);
   border-radius: 50px; 
-  font-size: 1.1rem;
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
   font-weight: 600;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   transition: all 0.3s ease;
   box-shadow: 0 10px 20px -5px rgba(45, 106, 79, 0.4);
 }
@@ -79,11 +74,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 5rem 5% 6rem 5%;
+  padding: clamp(3rem, 5vw, 5rem) 5% clamp(4rem, 8vw, 6rem) 5%;
   min-height: 80vh;
   background: linear-gradient(180deg, #f0fdf4 0%, var(--bg-white) 100%);
   position: relative;
   overflow: hidden;
+  gap: 2rem;
 }
 
 .hero-content {
@@ -104,7 +100,7 @@
 }
 
 .hero-title {
-  font-size: 4rem;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
   line-height: 1.1;
   margin-bottom: 1.5rem;
   color: var(--eco-dark);
@@ -117,25 +113,26 @@
 }
 
 .hero-subtitle {
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 2vw, 1.2rem);
   color: var(--text-gray);
   margin-bottom: 2.5rem;
   line-height: 1.6;
 }
 
-/* Composición Visual y Blob */
 .hero-visual {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 2;
+  width: 100%;
 }
 
 .composition-container {
   position: relative;
-  width: 450px;
-  height: 450px;
+  width: 100%;
+  max-width: 450px;
+  aspect-ratio: 1 / 1;
 }
 
 .eco-blob {
@@ -143,8 +140,10 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 320px;
-  height: 320px;
+  width: 100%;
+  height: 100%;
+  max-width: 350px;
+  max-height: 350px;
   background: var(--eco-accent);
   border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
   display: flex;
@@ -154,32 +153,6 @@
   animation: blobMorph 8s ease-in-out infinite alternate;
 }
 
-.icon-gigant {
-  width: 130px;
-  height: 130px;
-  color: white;
-  filter: drop-shadow(0 10px 10px rgba(0,0,0,0.15));
-}
-
-.floating-card {
-  position: absolute;
-  background: white;
-  padding: 1rem 1.5rem;
-  border-radius: 16px;
-  font-weight: 700;
-  color: var(--eco-dark);
-  box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  border: 2px solid var(--eco-light);
-}
-
-.emoji { font-size: 1.5rem; }
-
-.card-1 { top: 40px; left: -60px; }
-.card-2 { bottom: 80px; right: -40px; }
-
 .impact-section {
   background: var(--eco-primary);
   padding: 4rem 5%;
@@ -187,18 +160,18 @@
 }
 
 .impact-grid {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 2rem;
   text-align: center;
 }
 
 .stat-number {
-  font-size: 4.5rem;
+  font-size: clamp(3rem, 8vw, 4.5rem);
   font-weight: 900;
   margin: 0;
   color: var(--eco-light);
+  line-height: 1.2;
 }
 
 .stat-label {
@@ -209,33 +182,32 @@
   letter-spacing: 1px;
 }
 
-/* Goals Section */
 .goals-section {
-  padding: 6rem 5%;
+  padding: clamp(4rem, 8vw, 6rem) 5%;
   background: var(--bg-white);
 }
 
 .goals-header {
   text-align: center;
   max-width: 600px;
-  margin: 0 auto 4rem auto;
+  margin: 0 auto 3rem auto;
 }
 
 .goals-header h2 {
-  font-size: 2.8rem;
+  font-size: clamp(2rem, 4vw, 2.8rem);
   color: var(--eco-dark);
   margin-bottom: 1rem;
 }
 
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
 }
 
 .goal-card {
   background: white;
-  padding: 3rem 2rem;
+  padding: 2.5rem 2rem;
   border-radius: 24px;
   border: 1px solid #f3f4f6;
   box-shadow: 0 10px 30px rgba(0,0,0,0.03);
@@ -248,13 +220,13 @@
 }
 
 .card-icon {
-  width: 70px;
-  height: 70px;
-  border-radius: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2rem;
+  font-size: 1.8rem;
   margin-bottom: 1.5rem;
   background: var(--eco-light);
 }
@@ -300,11 +272,29 @@
 }
 
 @media (max-width: 900px) {
-  .hero-section { flex-direction: column; text-align: center; gap: 2rem; }
-  .hero-title { font-size: 3rem; }
-  .composition-container { width: 300px; height: 300px; margin-top: 2rem; }
-  .eco-blob { width: 220px; height: 220px; }
-  .card-1 { top: -20px; left: 0; }
-  .card-2 { bottom: -20px; right: 0; }
-  .stat-number { font-size: 3.5rem; }
+  .hero-section { 
+    flex-direction: column; 
+    text-align: center; 
+    padding-top: 3rem;
+  }
+  
+  .eco-badge {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .btn-eco {
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .composition-container {
+    max-width: 280px; 
+    margin-top: 1rem;
+  }
+  
+  .eco-blob > div {
+    width: 110px !important;
+    height: 110px !important;
+  }
 }

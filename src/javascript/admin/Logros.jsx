@@ -23,7 +23,6 @@ const Logros = () => {
 
   const fetchInsignias = async () => {
     try {
-
       const response = await api.get('/insignias');
       const activas = response.data.filter(ins => ins.insActiva !== false);
       setLogros(activas);
@@ -42,7 +41,6 @@ const Logros = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-
       if (isEditing) {
         await api.put(`/insignias/${editId}`, formData);
         alert("EcoToken actualizado exitosamente.");
@@ -112,9 +110,10 @@ const Logros = () => {
             <h3>{isEditing ? "✏️ Editar EcoToken" : "Crear Nuevo EcoToken UTN"}</h3>
             
             <form onSubmit={handleSubmit}>
-              <div style={{display: 'flex', gap: '1rem', marginBottom: '1.2rem'}}>
-                <div style={{flex: 1}}>
-                  <label className="form-group label" style={{display: 'block', fontSize: '0.875rem', fontWeight: 600, marginBottom: '0.5rem'}}>Icono</label>
+              
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Icono</label>
                   <select className="form-control" name="insIconoBase64" value={formData.insIconoBase64} onChange={handleChange}>
                     <option value="🏆">🏆 Trofeo</option>
                     <option value="🌱">🌱 Planta</option>
@@ -123,8 +122,8 @@ const Logros = () => {
                     <option value="⭐">⭐ Estrella</option>
                   </select>
                 </div>
-                <div style={{flex: 1}}>
-                  <label className="form-group label" style={{display: 'block', fontSize: '0.875rem', fontWeight: 600, marginBottom: '0.5rem'}}>Color (Fondo)</label>
+                <div className="form-group">
+                  <label>Color (Fondo)</label>
                   <input type="color" className="form-control" name="insColorHex" value={formData.insColorHex} onChange={handleChange} style={{padding: '0.2rem', height: '42px'}} />
                 </div>
               </div>
@@ -139,12 +138,12 @@ const Logros = () => {
                 <textarea className="form-control" name="insDescripcion" placeholder="¿Qué tiene que hacer el estudiante para ganarla?" rows="3" value={formData.insDescripcion} onChange={handleChange} required />
               </div>
 
-              <div style={{display: 'flex', gap: '1rem', marginBottom: '1.2rem'}}>
-                <div className="form-group" style={{flex: 1, marginBottom: 0}}>
+              <div className="form-row">
+                <div className="form-group">
                   <label>Meta Numérica</label>
                   <input type="number" step="0.01" className="form-control" name="insCriterioValor" placeholder="Ej: 50" value={formData.insCriterioValor} onChange={handleChange} required />
                 </div>
-                <div className="form-group" style={{flex: 1, marginBottom: 0}}>
+                <div className="form-group">
                   <label>Criterio (Enum)</label>
                   <select className="form-control" name="insCriterioTipo" value={formData.insCriterioTipo} onChange={handleChange}>
                     <option value="KG_TOTAL">Total Kilos</option>

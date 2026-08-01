@@ -35,7 +35,7 @@ const VistaEstudiante = () => {
 
     try {
       const email = localStorage.getItem('correo') || decoded?.sub || decoded?.username || 'estudiante@utn.edu.ec';
-      
+
       let userResponse;
       try {
         userResponse = await api.get(`/usuarios/correo/${email}`);
@@ -101,11 +101,11 @@ const VistaEstudiante = () => {
           const unlockedBadges = unlockedRes.data || [];
 
           const mergedBadges = allInsignias.map(ins => {
-             const wonBadge = unlockedBadges.find(ub => ub.insNombre === ins.insNombre);
-             return {
-                ...ins,
-                finGanadaEn: wonBadge ? (wonBadge.finGanadaEn || true) : null
-             };
+            const wonBadge = unlockedBadges.find(ub => ub.insNombre === ins.insNombre);
+            return {
+              ...ins,
+              finGanadaEn: wonBadge ? (wonBadge.finGanadaEn || true) : null
+            };
           });
 
           setBadges(mergedBadges);
@@ -126,7 +126,7 @@ const VistaEstudiante = () => {
   }, []);
 
   const totalKg = facultyStats.totalKg;
-  const totalXP = Math.floor(totalKg * xpPerKg) + 340; 
+  const totalXP = Math.floor(totalKg * xpPerKg) + 340;
   const currentLevel = Math.floor(totalXP / xpPerLevel) + 1;
   const currentXPInLevel = totalXP % xpPerLevel;
   const xpPercentage = Math.min(100, Math.floor((currentXPInLevel / xpPerLevel) * 100));
@@ -153,14 +153,14 @@ const VistaEstudiante = () => {
       const now = new Date();
       const diffMs = now - date;
       if (isNaN(diffMs)) return 'Recientemente';
-      
+
       const mins = Math.floor(diffMs / 60000);
       if (mins < 1) return 'Hace un momento';
       if (mins < 60) return `Hace ${mins} ${mins === 1 ? 'minuto' : 'minutos'}`;
-      
+
       const hours = Math.floor(mins / 60);
       if (hours < 24) return `Hace ${hours} ${hours === 1 ? 'hora' : 'horas'}`;
-      
+
       const days = Math.floor(hours / 24);
       return `Hace ${days} ${days === 1 ? 'día' : 'días'}`;
     } catch (e) {
@@ -183,20 +183,17 @@ const VistaEstudiante = () => {
       </header>
 
       <div className="dashboard-grid">
-        
+
         <div className="dashboard-col">
-          
-          {/* Greeting and Community Goal Card */}
           <div className="estudiante-card">
-            {/* Greet Section */}
             <div className="greet-section">
               <div className="greet-info">
                 <div className="greet-avatar-container">
                   <div className="greet-avatar-box">
                     {profile?.usuFotoPerfilBase64 ? (
-                      <img 
-                        src={profile.usuFotoPerfilBase64} 
-                        alt="Avatar" 
+                      <img
+                        src={profile.usuFotoPerfilBase64}
+                        alt="Avatar"
                         className="greet-avatar-img"
                       />
                     ) : (
@@ -241,22 +238,22 @@ const VistaEstudiante = () => {
 
                 <div className="radial-loader-wrapper">
                   <svg width="80" height="80" className="transform -rotate-90">
-                    <circle 
-                      cx="40" 
-                      cy="40" 
-                      r={radius} 
-                      style={{ color: '#e2e8f0' }} 
-                      strokeWidth="6" 
-                      fill="transparent" 
+                    <circle
+                      cx="40"
+                      cy="40"
+                      r={radius}
+                      style={{ color: '#e2e8f0' }}
+                      strokeWidth="6"
+                      fill="transparent"
                       stroke="currentColor"
                     />
-                    <circle 
-                      cx="40" 
-                      cy="40" 
-                      r={radius} 
-                      style={{ color: 'var(--eco-primary)', transition: 'stroke-dashoffset 0.6s' }} 
-                      strokeWidth="6" 
-                      fill="transparent" 
+                    <circle
+                      cx="40"
+                      cy="40"
+                      r={radius}
+                      style={{ color: 'var(--eco-primary)', transition: 'stroke-dashoffset 0.6s' }}
+                      strokeWidth="6"
+                      fill="transparent"
                       stroke="currentColor"
                       strokeDasharray={circumference}
                       strokeDashoffset={circumference - (0.68 * circumference)}
@@ -335,14 +332,14 @@ const VistaEstudiante = () => {
                   );
                 })
               ) : (
-                <div style={{ 
-                  color: '#15803d', 
-                  backgroundColor: '#f0fdf4', 
-                  border: '1px solid #bbf7d0', 
-                  borderRadius: '12px', 
-                  padding: '1.25rem', 
-                  fontSize: '0.8rem', 
-                  textAlign: 'center', 
+                <div style={{
+                  color: '#15803d',
+                  backgroundColor: '#f0fdf4',
+                  border: '1px solid #bbf7d0',
+                  borderRadius: '12px',
+                  padding: '1.25rem',
+                  fontSize: '0.8rem',
+                  textAlign: 'center',
                   fontWeight: 600,
                   lineHeight: '1.4'
                 }}>
@@ -354,7 +351,7 @@ const VistaEstudiante = () => {
         </div>
 
         <div className="dashboard-col">
-          
+
           <div className="estudiante-card">
             <h3 className="estudiante-card-title">
               <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -378,7 +375,7 @@ const VistaEstudiante = () => {
                   );
                 })
               ) : (
-                <div style={{ gridColumn: 'span 4', color: 'var(--text-gray)', fontSize: '0.75rem', textAlign: 'center' }}>
+                <div style={{ gridColumn: '1 / -1', color: 'var(--text-gray)', fontSize: '0.75rem', textAlign: 'center' }}>
                   No hay insignias registradas.
                 </div>
               )}
@@ -400,7 +397,7 @@ const VistaEstudiante = () => {
                 const facCode = row.ranFacultad?.facCodigo || row.ranFacultad?.facNombre || '';
                 const isUserFaculty = facCode === userFacCode;
                 return (
-                  <div 
+                  <div
                     key={row.ranId || idx}
                     className={`ranking-row ${isUserFaculty ? 'ranking-row-active' : ''}`}
                   >

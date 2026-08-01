@@ -13,20 +13,21 @@
   gap: 0.8rem;
   max-width: 100%;
   font-size: 0.75rem;
+  padding: clamp(1rem, 3vw, 2rem);
 }
 
 .card-section {
   background: #ffffff;
   border-radius: 10px;
   border: 1px solid var(--border-color);
-  padding: 1rem 1.25rem;
+  padding: clamp(1rem, 3vw, 1.25rem);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .header-stepper-section .section-title {
   margin: 0 0 0.8rem 0;
   color: var(--text-main);
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 3vw, 1.1rem);
   font-weight: 800;
 }
 
@@ -41,6 +42,7 @@
   flex-direction: column;
   align-items: center;
   gap: 0.25rem;
+  flex: 1;
 }
 
 .step-circle {
@@ -54,6 +56,7 @@
   font-weight: 700;
   color: var(--text-muted);
   font-size: 0.7rem;
+  transition: all 0.3s;
 }
 
 .step-circle.glow {
@@ -65,8 +68,7 @@
   flex: 1;
   height: 2px;
   background: #e2e8f0;
-  margin: 0 8px;
-  margin-bottom: 14px;
+  margin: 0 4px 14px 4px;
 }
 
 .step-line.active-line {
@@ -77,6 +79,7 @@
   font-size: 0.65rem;
   font-weight: 600;
   color: var(--text-muted);
+  text-align: center;
 }
 
 .step.active span {
@@ -88,6 +91,8 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 0.8rem;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .step-title-row h3 {
@@ -108,13 +113,13 @@
 
 .facultades-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 0.8rem;
 }
 
 .contenedores-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 0.8rem;
 }
 
@@ -176,16 +181,12 @@
   border: 1px solid #bbf7d0;
 }
 
-.selected-faculty-banner .svg-icon {
-  width: 18px;
-  height: 18px;
-  color: #15803d;
-}
-
 .card-top {
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.4rem;
+  flex-wrap: wrap;
+  gap: 4px;
 }
 
 .status-badge {
@@ -205,6 +206,26 @@
   color: #991b1b;
 }
 
+.status-badge.mantenimiento {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.status-badge.llenado-vacio {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.status-badge.llenado-medio {
+  background: #fef08a;
+  color: #854d0e;
+}
+
+.status-badge.llenado-critico {
+  background: #fecaca;
+  color: #991b1b;
+}
+
 .card-center {
   text-align: center;
   margin-bottom: 0.8rem;
@@ -213,17 +234,6 @@
 .card-center h4 {
   margin: 0 0 4px 0;
   font-size: 0.8rem;
-}
-
-.badge-residuo {
-  display: inline-block;
-  background: #f1f5f9;
-  color: #475569;
-  padding: 2px 8px;
-  border-radius: 10px;
-  font-size: 0.6rem;
-  font-weight: 600;
-  margin-bottom: 6px;
 }
 
 .card-center p {
@@ -273,26 +283,6 @@
   box-shadow: none;
 }
 
-.status-badge.mantenimiento {
-  background: #fee2e2;
-  color: #991b1b;
-}
-
-.status-badge.llenado-vacio {
-  background: #e2e8f0;
-  color: #475569;
-}
-
-.status-badge.llenado-medio {
-  background: #fef08a;
-  color: #854d0e;
-}
-
-.status-badge.llenado-critico {
-  background: #fecaca;
-  color: #991b1b;
-}
-
 .action-row-right {
   text-align: right;
   margin-top: 0.8rem;
@@ -307,11 +297,11 @@
   background: var(--eco-primary);
   color: white;
   border: none;
-  padding: 6px 14px;
+  padding: 8px 16px;
   border-radius: 6px;
   font-weight: 600;
   cursor: pointer;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 
 .btn-primary-r:hover {
@@ -344,24 +334,6 @@
   transform: translateY(-1px);
 }
 
-.btn-outline {
-  background: white;
-  border: 1px solid var(--border-color);
-  padding: 5px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.75rem;
-}
-
-.btn-outline:hover {
-  background: #f9fafb;
-}
-
-.full-width {
-  width: 100%;
-}
-
 .details-form {
   border-top: 1px solid var(--border-color);
   padding-top: 1rem;
@@ -390,13 +362,14 @@
 
 .form-group-r {
   margin-bottom: 0.6rem;
+  width: 100%;
 }
 
 .form-group-r label {
   display: block;
   font-weight: 600;
   margin-bottom: 4px;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   color: var(--text-main);
 }
 
@@ -410,18 +383,21 @@
 
 .input-with-suffix input {
   flex: 1;
-  padding: 5px 8px;
+  padding: 8px 10px;
   border: none;
   outline: none;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
+  width: 100%;
 }
 
 .suffix {
-  padding: 5px 8px;
+  padding: 8px 10px;
   background: var(--bg-input);
   color: var(--text-muted);
   border-left: 1px solid var(--border-color);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
 }
 
 .checkbox-label {
@@ -429,19 +405,20 @@
   align-items: center;
   gap: 6px;
   font-weight: 600;
-  color: #dc2626;
+  color: #dc2626 !important;
   cursor: pointer;
-  font-size: 0.7rem;
+  font-size: 0.75rem !important;
 }
 
 textarea {
   width: 100%;
-  padding: 6px 8px;
+  padding: 8px 10px;
   border: 1px solid var(--border-color);
   border-radius: 6px;
   outline: none;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-family: inherit;
+  box-sizing: border-box;
 }
 
 .upload-box {
@@ -453,13 +430,13 @@ textarea {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 40px;
+  min-height: 44px;
 }
 
 .upload-label {
   cursor: pointer;
   color: var(--text-muted);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   margin: 0 !important;
   display: flex;
   align-items: center;
@@ -717,32 +694,33 @@ textarea {
   border-radius: 4px;
 }
 
-.fade-in {
-  animation: fadeIn 0.3s ease-in;
+.full-width {
+  width: 100%;
 }
 
-.animate-slide-up {
-  animation: slideUp 0.3s ease-out forwards;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
+@media (max-width: 600px) {
+  .step span {
+    font-size: 0.55rem;
   }
 
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
+  .step-circle {
+    width: 20px;
+    height: 20px;
+    font-size: 0.65rem;
   }
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  .half {
+    min-width: 100%;
+  }
+
+  .action-row-left,
+  .action-row-right {
+    text-align: center;
+  }
+
+  .btn-primary-r,
+  .btn-back {
+    width: 100%;
+    justify-content: center;
   }
 }
