@@ -8,14 +8,20 @@
 }
 
 .login-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
-  min-height: 100dvh;
   font-family: 'Segoe UI', system-ui, sans-serif;
   background-color: var(--bg-white);
+  overflow: hidden;
 }
 
 .login-left {
   flex: 0.9;
+  height: 100%;
   background: linear-gradient(145deg, var(--eco-primary) 0%, var(--eco-dark) 100%);
   color: white;
   display: flex;
@@ -83,6 +89,7 @@
 
 .login-right {
   flex: 1.1;
+  height: 100%;
   background-color: var(--bg-white);
   display: flex;
   flex-direction: column;
@@ -380,31 +387,28 @@
 
 @media (max-width: 900px) {
   .login-container {
-    display: block;
-    min-height: 100dvh;
+    flex-direction: column;
     overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
   }
 
   .login-left {
-    display: flex;
+    flex: none;
+    height: auto;
     padding: 3rem 1.5rem 5rem 1.5rem;
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
-    position: relative;
     z-index: 10;
   }
 
   .login-right {
-    display: block;
+    flex: none;
+    height: auto;
+    overflow-y: visible;
     padding: 3.5rem 1.5rem 6rem 1.5rem !important;
     margin-top: -40px;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
     box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.05);
-    overflow: visible;
-    height: auto;
-    position: relative;
     z-index: 1;
   }
 
