@@ -381,9 +381,9 @@
 @media (max-width: 900px) {
   .login-container {
     display: block;
-    height: auto;
     min-height: 100dvh;
-    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .login-left {
@@ -403,9 +403,9 @@
     border-top-right-radius: 30px;
     box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.05);
     overflow: visible;
+    height: auto;
     position: relative;
     z-index: 1;
-    min-height: calc(100dvh - 200px);
   }
 
   .eco-blob-container {

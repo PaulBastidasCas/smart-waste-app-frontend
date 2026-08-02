@@ -11,20 +11,13 @@
   --border-color: #e2e8f0;
 }
 
-html,
-body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden;
-}
-
 .encargado-layout {
   display: flex;
   height: 100dvh;
+  width: 100%;
   background-color: var(--bg-app);
   font-family: 'Segoe UI', system-ui, sans-serif;
-  overflow: hidden;
+  overflow: hidden; 
 }
 
 .sidebar {
